@@ -1,0 +1,1 @@
+https://maps-data.nrel.gov/geoserver/nrel/ows?outputFormat=SHAPE-ZIP&propertyName=company%2Cstate%2Ccapacity%2Cwkb_geometry&request=GetFeature&service=WFS&typeName=nrel%3Abiodiesel_plants_jul2018&version=1.0.0

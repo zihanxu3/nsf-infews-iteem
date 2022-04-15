@@ -1,0 +1,1 @@
+https://maps-data.nrel.gov/geoserver/nrel/ows?outputFormat=SHAPE-ZIP&propertyName=company%2Caddress%2Ccity%2Cstate%2Czip_code%2Cfeedstock%2Ccapacity%2Cthe_geom_4326&request=GetFeature&service=WFS&typeName=nrel%3Aethanol_plants_201904&version=1.0.0
