@@ -12,11 +12,10 @@ class Background extends Component {
     }
 
     render() {
-        // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
         return (
             <div>
                 <p style={{ paddingTop: 70 }}>
-
+                    
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{ flex: 1 }}>

@@ -1,3 +1,4 @@
+// Import all necessary libraries/modules.
 import React, { Component } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -25,41 +26,23 @@ import LinePlots from './LinePlots'
 import SankeyPlots from './SankeyPlots';
 import RadarPlots from './RadarPlots';
 import HighchartsMore from 'highcharts/highcharts-more'
-HighchartsMore(Highcharts)
 
-
+// Highcharts extension requirements
+HighchartsMore(Highcharts) 
 require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 require("highcharts/modules/sankey")(Highcharts);
 
 
 
-
+// Parameter types
 let wwt_params_string = ['AS', 'ASCP', 'EBPR_basic', 'EBPR_acetate', 'EBPR_StR']
 
-// let master_year_array = []
-// for (let i = 2003; i < 2003 + 17; i++) {
-//     master_year_array.push(i.toString());
-// }
-
-// let master_month_array = []
-// for (let i = 1; i < 13; i++) {
-//     master_month_array.push(i.toString());
-// }
-
-// let master_year_month_array = []
-// for (let i = 0; i < 16; i++) {
-//     for (let j = 0; j < 12; j++) {
-//         master_year_month_array.push(master_year_array[i] + '-' + master_month_array[j]);
-//     }
-// }
-
-// localStorage.setItem('master_year_month_array', JSON.stringify(master_year_month_array));
+// Year month array for finding correspondence when processing data.
 let master_year_month_array = ["2003-1", "2003-2", "2003-3", "2003-4", "2003-5", "2003-6", "2003-7", "2003-8", "2003-9", "2003-10", "2003-11", "2003-12", "2004-1", "2004-2", "2004-3", "2004-4", "2004-5", "2004-6", "2004-7", "2004-8", "2004-9", "2004-10", "2004-11", "2004-12", "2005-1", "2005-2", "2005-3", "2005-4", "2005-5", "2005-6", "2005-7", "2005-8", "2005-9", "2005-10", "2005-11", "2005-12", "2006-1", "2006-2", "2006-3", "2006-4", "2006-5", "2006-6", "2006-7", "2006-8", "2006-9", "2006-10", "2006-11", "2006-12", "2007-1", "2007-2", "2007-3", "2007-4", "2007-5", "2007-6", "2007-7", "2007-8", "2007-9", "2007-10", "2007-11", "2007-12", "2008-1", "2008-2", "2008-3", "2008-4", "2008-5", "2008-6", "2008-7", "2008-8", "2008-9", "2008-10", "2008-11", "2008-12", "2009-1", "2009-2", "2009-3", "2009-4", "2009-5", "2009-6", "2009-7", "2009-8", "2009-9", "2009-10", "2009-11", "2009-12", "2010-1", "2010-2", "2010-3", "2010-4", "2010-5", "2010-6", "2010-7", "2010-8", "2010-9", "2010-10", "2010-11", "2010-12", "2011-1", "2011-2", "2011-3", "2011-4", "2011-5", "2011-6", "2011-7", "2011-8", "2011-9", "2011-10", "2011-11", "2011-12", "2012-1", "2012-2", "2012-3", "2012-4", "2012-5", "2012-6", "2012-7", "2012-8", "2012-9", "2012-10", "2012-11", "2012-12", "2013-1", "2013-2", "2013-3", "2013-4", "2013-5", "2013-6", "2013-7", "2013-8", "2013-9", "2013-10", "2013-11", "2013-12", "2014-1", "2014-2", "2014-3", "2014-4", "2014-5", "2014-6", "2014-7", "2014-8", "2014-9", "2014-10", "2014-11", "2014-12", "2015-1", "2015-2", "2015-3", "2015-4", "2015-5", "2015-6", "2015-7", "2015-8", "2015-9", "2015-10", "2015-11", "2015-12", "2016-1", "2016-2", "2016-3", "2016-4", "2016-5", "2016-6", "2016-7", "2016-8", "2016-9", "2016-10", "2016-11", "2016-12", "2017-1", "2017-2", "2017-3", "2017-4", "2017-5", "2017-6", "2017-7", "2017-8", "2017-9", "2017-10", "2017-11", "2017-12", "2018-1", "2018-2", "2018-3", "2018-4", "2018-5", "2018-6", "2018-7", "2018-8", "2018-9", "2018-10", "2018-11", "2018-12"]
 
 
-
-
+// Icon for showing plants on map.
 let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
@@ -69,6 +52,8 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
+
+// Color scaling function for gradient color map.
 
 function getColor(d, unitSize, minValue) {
     // console.log(d, unitSize, minValue);
@@ -82,16 +67,18 @@ function getColor(d, unitSize, minValue) {
                                 '#FFEDA0';
 }
 
+// Alert pop up for confirming custom parameters.
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+// Create default row format for BMP table.
 function createData(bmp, coverCrop, fertilizerRate, waterways, landAlloc) {
     return { bmp, coverCrop, fertilizerRate, waterways, landAlloc };
 }
 
 
-
+// Create default row format for General table.
 function createDefaultData(gep, baseline, units) {
     return { gep, baseline, units };
 }
@@ -101,11 +88,12 @@ const defaultRows = [
     createDefaultData('Soybean market price', '0.356', '$/kg'),
     createDefaultData('Biomass market price', '40.0', '$/kg (dry basis)'),
     createDefaultData('Willingness to pay', '0.95', '$/(household*year) for 1% water quality improvement'),
-    createDefaultData('Interest rate', '7%', '-'),
+    createDefaultData('Interest rate', '7%', '%'),
     createDefaultData('Electricity price', '0.0638', '$/kWh'),
     createDefaultData('Natural gas price', '5.25', '$/cbf'),
 ];
 
+// Create default row format for Plant table.
 function createPlantData(parameter, value, unit, source) {
     return { parameter, value, unit, source }
 }
@@ -119,7 +107,7 @@ export default class ITEEMSimulation extends Component {
         this.state = {
             currentLocation: { lat: 40.0978, lng: -88.8334 },
             zoom: 9.3,
-            selectedWatershed: '/',
+            selectedWatershed: 33,
             expanded_shed: true,
             selectedPlant: '/',
             expanded_plant: true,
@@ -192,6 +180,7 @@ export default class ITEEMSimulation extends Component {
 
             selectedWatershedOutput: 33,
 
+            // Default input formats for various charts, to be filled later with returned data
             lineChartNitrateOptions: {
                 chart: {
                     type: 'spline'
@@ -347,10 +336,9 @@ export default class ITEEMSimulation extends Component {
         this.setState({ snackOpen2: false });
     };
 
-
+    // Set up logic when interacting with subwatershed layers.
     onEachSubWatershed = (subWatershed, layer) => {
         const id_ = subWatershed.properties.OBJECTID;
-        // console.log(id_);        
 
         if (this.state.dataReceived === false) {
             layer.bindTooltip("Sub-watershed " + id_.toString());
@@ -401,7 +389,6 @@ export default class ITEEMSimulation extends Component {
     };
 
     handleYieldMenuChange = async (event) => {
-
         this.setState({
             yieldMenuValue: event.target.value,
         },
@@ -421,8 +408,6 @@ export default class ITEEMSimulation extends Component {
                 }, () => {
                     this.state.map.removeControl(this.state.legend);
                 });
-
-
             }
         )
     };
@@ -439,8 +424,8 @@ export default class ITEEMSimulation extends Component {
         })
         console.log('edit land alloc clicked');
     }
-    onSaveLandAllocClicked = () => {
 
+    onSaveLandAllocClicked = () => {
         let watershed = parseInt(this.state.selectedWatershed) - 1;
         let sum = parseInt(this.state.baseline) + parseInt(this.state.bmp1) + parseInt(this.state.bmp2) + parseInt(this.state.bmp3) + parseInt(this.state.bmp4) + parseInt(this.state.bmp5) + parseInt(this.state.bmp6);
         let params = [parseInt(this.state.baseline), parseInt(this.state.bmp1), parseInt(this.state.bmp2), parseInt(this.state.bmp3), parseInt(this.state.bmp4), parseInt(this.state.bmp5), parseInt(this.state.bmp6)]
@@ -466,7 +451,7 @@ export default class ITEEMSimulation extends Component {
         console.log('save land alloc clicked');
     }
 
-
+    // Style for subwatershed layer, before simulation.
     style = (feature) => {
         const id_ = feature.properties.OBJECTID;
         return {
@@ -478,9 +463,9 @@ export default class ITEEMSimulation extends Component {
         };
     }
 
+    // Style for subwatershed layer, after simulation, color gradient-ed.
     style_output_mode = (feature) => {
         const id_ = feature.properties.OBJECTID;
-        // console.log(this.state.returned_Json['yieldData']['nitrate'][id_ - 1], this.state.unitSize)
         let arr = ['nitrate', 'phosphorus', 'streamflow']
         return {
             weight: 2,
@@ -518,6 +503,7 @@ export default class ITEEMSimulation extends Component {
         console.log('save general baseline clicked');
     }
 
+    // Create plot data to feed into the ploting objects.
     lineDataNitrate = (title_, type_, xlabel_, ylabel_, subwatershed) => {
         console.log(this.state.returned_Json['loadDataList']);
         this.setState({
@@ -634,30 +620,6 @@ export default class ITEEMSimulation extends Component {
 
             }
         })
-
-
-        // this.setState( 
-        //     {
-        //     SankeyPlotOptions: {
-        //         title: {
-        //             text: 'ssssss'
-        //         },
-        //         accessibility: {
-        //             point: {
-        //                 valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
-        //             }
-        //         },
-        //         series: [{
-        //             type: 'sankey',
-        //             keys: ['from', 'to', 'weight'],
-        //             data: [
-        //                 ['ss', 'x', 5.3333],
-        //                 ['ss', 'xxx', 1444.2],
-        //             ]
-        //         }]
-        //     },
-        // }
-        // )
     }
 
 
@@ -669,7 +631,7 @@ export default class ITEEMSimulation extends Component {
             simulated: true,
         });
 
-
+        // Sending HTTPS request to fetch data from backend. 
         (async () => {
             const rawResponse = await fetch('https://iteembackend.web.illinois.edu/simulate', {
                 method: 'POST',
@@ -688,6 +650,7 @@ export default class ITEEMSimulation extends Component {
                     })
             });
 
+            // Catch response / error.
             let resp;
             try {
                 resp = await rawResponse.json();
@@ -695,12 +658,12 @@ export default class ITEEMSimulation extends Component {
                 console.log(e)
             }
 
-            console.log(resp);
+            // console.log(resp);
             this.setState({
                 returned_Json: resp
             })
 
-            console.log(resp);
+            // console.log(resp);
 
             this.lineDataNitrate("Nitrate Load Plot", 'nitrate', "Date", "Nitrate Load", 33);
             this.lineDataPhosphorus("Phosphorus Load Plot", 'phosphorus', "Date", "Phosphorus Load", 33);
@@ -709,57 +672,13 @@ export default class ITEEMSimulation extends Component {
             console.log(this.state.SankeyPlotOptions);
 
             let data = []
-
-
-            // alert(content); // uncomment this line if you do not know how to read logs.
-            // for (let i = 0; i < master_year_month_array.length; i++) {
-            //     data.push({
-            //         date: master_year_month_array[i],
-            //         // TODO: get_load three diagrams - ['nitrate', 'phosphorus', 'streamflow'] at index 33
-            //         loadDataNitrate: resp['loadData']['nitrate'][Math.floor(i / 12)][i % 12], // /1000
-            //         loadDataNitrateBase: baseline_json['loadData']['nitrate'][Math.floor(i / 12)][i % 12], // /1000
-            //         loadDataPhosphorus: resp['loadData']['phosphorus'][Math.floor(i / 12)][i % 12], // /1000
-            //         loadDataPhosphorusBase: baseline_json['loadData']['phosphorus'][Math.floor(i / 12)][i % 12], // /1000
-            //         loadDataStreamflow: resp['loadData']['streamflow'][Math.floor(i / 12)][i % 12], // /1000000
-            //         loadDataStreamflowBase: baseline_json['loadData']['streamflow'][Math.floor(i / 12)][i % 12], // /1000
-
-            //         // TODO: get_sediment_load three diagrams at index 33
-            //         sedimentLoad: resp['sedimentLoad'][Math.floor(i / 12)][i % 12],
-            //         sedimentLoadBase: baseline_json['sedimentLoad'][Math.floor(i / 12)][i % 12],
-            //         // TODO: get_crop - crop_production three diagrams - ['corn', 'soybean', 'switchgrass'] at index 33
-            //     })
-            // }
             let gradNumber = 8;
             let arr = ['nitrate', 'phosphorus', 'streamflow'];
             let diff = await Math.max.apply(Math, resp['yieldData'][arr[this.state.yieldMenuValue - 1]]) - Math.min.apply(Math, resp['yieldData'][arr[this.state.yieldMenuValue - 1]]);
             let minvalue = Math.min.apply(Math, resp['yieldData'][arr[this.state.yieldMenuValue - 1]]);
 
-            // let source = [0, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 5, 6];
-            // let target = [4, 5, 6, 9, 11, 15, 5, 10, 11, 5, 6, 8, 11, 7, 8, 12, 13, 14, 4];
-            // let sankeyVals = resp['plist']['output'];
-            // let names = ["P in imported corn", "P in fertilizer", "P in manure", "P in wastewater treatment plant", "P in corn biorefinery plants", "P in in-stream loads", "P in local corn", "P in products of CBs", "P in recovered P", "P in soybean", "P in corn silage", "P in soil",
-            //     "P in riverine export", "P in reservoir trapping", "P in in-stream storage", "P in biomass"];
-            // let sankeyNames = [];
-            // let sankeyLinks = [];
-            // for (let i = 0; i < names.length; i++) {
-            //     sankeyNames.push({
-            //         name: names[i],
-            //     })
-            // }
-            // for (let i = 0; i < source.length; i++) {
-            //     sankeyLinks.push({
-            //         source: source[i],
-            //         target: target[i],
-            //         value: parseFloat(sankeyVals[i].toFixed(1))
-            //     })
-            // }
-            // let sankeyOutput = {};
-            // sankeyOutput['links'] = sankeyLinks;
-            // sankeyOutput['nodes'] = sankeyNames;
-
             this.setState({
                 master_data: data,
-                // sankeyParams: sankeyOutput,
                 unitSize: diff / gradNumber,
                 minValue: minvalue,
                 dataReceived: true,
@@ -827,7 +746,7 @@ export default class ITEEMSimulation extends Component {
 
     onSavePlantInfo = () => {
 
-        if (this.state.selectedPlant == 'WWT Plant') {
+        if (this.state.selectedPlant == 'Waste Water Treatment Plant') {
 
             let params = [
                 parseFloat(this.state.wwt_ifi),
@@ -973,7 +892,7 @@ export default class ITEEMSimulation extends Component {
             createDefaultData('Soybean market price', <TextField disabled={disabled_general} id="outlined-basic" name='general_soybean_market_price' value={general_soybean_market_price} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '$/kg'),
             createDefaultData('Biomass market price', <TextField disabled={disabled_general} id="outlined-basic" name='general_biomass_market_price' value={general_biomass_market_price} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '$/kg (dry basis)'),
             createDefaultData('Willingness to pay', <TextField disabled={disabled_general} id="outlined-basic" name='general_willingness_to_pay' value={general_willingness_to_pay} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '$/(household*year) for 1% water quality improvement'),
-            createDefaultData('Interest rate', <TextField disabled={disabled_general} id="outlined-basic" name='general_interst_rate' value={general_interst_rate} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '-'),
+            createDefaultData('Interest rate', <TextField disabled={disabled_general} id="outlined-basic" name='general_interst_rate' value={general_interst_rate} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '%'),
             createDefaultData('Electricity price', <TextField disabled={disabled_general} id="outlined-basic" name='general_electricity_price' value={general_electricity_price} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '$/kWh'),
             createDefaultData('Natural gas price', <TextField disabled={disabled_general} id="outlined-basic" name='general_natural_gas_price' value={general_natural_gas_price} onChange={this.handleSubwatershedTextfield} variant='outlined' size='small' />, '$/cbf'),
         ];
@@ -1138,7 +1057,8 @@ export default class ITEEMSimulation extends Component {
                             })
                         }}>
                         <GeoJSON tag="Reach" data={reachData} />
-
+                        
+                        {/* Set up tiles for map */}
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=67eb9efb-a33d-4104-b627-9456bbfb808e"
                             attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -1148,7 +1068,8 @@ export default class ITEEMSimulation extends Component {
 
                         <GeoJSON key={dataReceived + unitSize} tag="Subwatersheds" data={geoData.features} onEachFeature={this.onEachSubWatershed} style={dataReceived ? this.style_output_mode : this.style} />
 
-
+                        
+                        {/* If data is received:  */}
                         {dataReceived ?
 
                             <LegendLeaflet key={unitSize} map={map} unitSize={unitSize} legendExist={legend} legendTitle={legendTitle} minValue={minValue} callBack={(legend) => {
@@ -1157,11 +1078,12 @@ export default class ITEEMSimulation extends Component {
                             :
                             null
                         }
+                        {/* If data have not been received yet:  */}
                         {!dataReceived ?
                             <div>
                                 <Marker tag="WWT Plant" position={[39.83121, -89.00160]} eventHandlers={{
                                     click: () => {
-                                        this.setState({ selectedWatershed: '/', selectedPlant: 'WWT Plant' })
+                                        this.setState({ selectedWatershed: '/', selectedPlant: 'Waste Water Treatment Plant' })
                                     }
                                 }}>
                                     <Tooltip>Plant: WWT Plant</Tooltip>
@@ -1218,7 +1140,7 @@ export default class ITEEMSimulation extends Component {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <p style={{ fontFamily: 'Noto Sans', fontWeight: 'bold' }}>General Information</p>
+                            <p style={{ fontFamily: 'Noto Sans', fontWeight: 'bold' }}>Parameters</p>
                         </AccordionSummary>
                         <AccordionDetails>
 
@@ -1227,7 +1149,7 @@ export default class ITEEMSimulation extends Component {
                                 <Table style={{ minWidth: 300 }} size="small" aria-label="dense table">
                                     <TableHead style={{ backgroundColor: '#DA5902', fontFamily: 'Noto Sans' }}>
                                         <TableRow>
-                                            <TableCell style={{ fontFamily: 'Noto Sans', color: 'white', fontWeight: 'bold' }}>General<br></br>Economic Parameters</TableCell>
+                                            <TableCell style={{ fontFamily: 'Noto Sans', color: 'white', fontWeight: 'bold' }}>General<br></br>Economic .</TableCell>
                                             <TableCell align="left" style={{ fontFamily: 'Noto Sans', color: 'white' }}>
                                                 <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'center' }}>
                                                     <p style={{ marginRight: 10 }}>Baseline</p>
@@ -1266,7 +1188,7 @@ export default class ITEEMSimulation extends Component {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <p style={{ fontFamily: 'Noto Sans', fontWeight: 'bold' }}>Selected Subwatershed: #{selectedWatershed}</p>
+                            <p style={{ fontFamily: 'Noto Sans', fontWeight: 'bold' }}>Subwatershed: #{selectedWatershed}</p>
                         </AccordionSummary>
                         <AccordionDetails>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -1326,14 +1248,14 @@ export default class ITEEMSimulation extends Component {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <p style={{ fontFamily: 'Noto Sans', fontWeight: 'bold' }}>Selected Plant: #{selectedPlant}</p>
+                            <p style={{ fontFamily: 'Noto Sans', fontWeight: 'bold' }}>Plant: #{selectedPlant}</p>
                         </AccordionSummary>
                         <AccordionDetails>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
                                 <FormControl style={{ minWidth: 200, marginBottom: 20 }}>
-                                    <InputLabel>Variables</InputLabel>
+                                    <InputLabel>Decision Variable</InputLabel>
 
-                                    {selectedPlant == 'WWT Plant' ?
+                                    {selectedPlant == 'Waste Water Treatment Plant' ?
                                         <Select
                                             value={menu_value}
                                             onChange={this.handleChange}
@@ -1365,7 +1287,7 @@ export default class ITEEMSimulation extends Component {
                                                 <TableCell align="left" style={{ fontFamily: 'Noto Sans', color: 'white' }}>Source</TableCell>
                                             </TableRow>
                                         </TableHead>
-                                        {selectedPlant == 'WWT Plant' ?
+                                        {selectedPlant == 'Waste Water Treatment Plant' ?
                                             <TableBody>
                                                 {wwtRows.map((row) => (
                                                     <TableRow key={row.parameter}>
@@ -1441,7 +1363,7 @@ export default class ITEEMSimulation extends Component {
                                     Note: Yield data plots will be shown on the left.
                                 </p>
                                 <FormControl style={{ minWidth: 200 }}>
-                                    <InputLabel>Variables</InputLabel>
+                                    <InputLabel>Decision Variable</InputLabel>
                                     <Select
                                         value={yieldMenuValue}
                                         onChange={this.handleYieldMenuChange}

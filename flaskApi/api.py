@@ -28,7 +28,16 @@ def simulate():
     tech_GP3 = request.get_json()['nwwt_param_dmp']
 
     landuse_matrix_baseline = np.zeros((45,62))
-    landuse_matrix_baseline[:,:7] = np.array(matrix) / 100
+    temp_matrix = np.array(matrix) / 100
+    landuse_matrix_baseline[:, 0] = temp_matrix[:, 0]
+    landuse_matrix_baseline[:, 37] = temp_matrix[:, 1]
+    landuse_matrix_baseline[:, 39] = temp_matrix[:, 2]
+    landuse_matrix_baseline[:, 46] = temp_matrix[:, 3]
+    landuse_matrix_baseline[:, 47] = temp_matrix[:, 4]
+    landuse_matrix_baseline[:, 48] = temp_matrix[:, 5]
+    landuse_matrix_baseline[:, 55] = temp_matrix[:, 6]
+
+
 
     baseline = ITEEM(landuse_matrix_baseline, tech_wwt=tech_wwt, limit_N=10.0, tech_GP1=tech_GP1, tech_GP2=tech_GP2, tech_GP3=tech_GP3)
     baseline_global = baseline

@@ -279,13 +279,23 @@ class ITEEM(object):
         return P_in_list, P_intermediate_list, P_out_list_adj, source, target, P_soil_fertilizer, output_list, output_list2
     
     
-    def run_ITEEM(self, sw=33, r=0.07, n_wwt=40, nutrient_index=1.0, flow_index=1.0, chem_index=1.0, rP_index=1.0, 
-                  utility_index=1.0, grain_product_index=1.0, feedstock_index=1.0, crop_index=1.0, unit_pay=0.95, wtp_price=0.95):
+    def run_ITEEM(self, input_para=[0.152, 0.356, 40, 0.95, 0.07, 0.0638, 5.25],
+                  sw=33, r=0.07, n_wwt=40, nutrient_index=1.0, flow_index=1.0, chem_index=1.0, rP_index=1.0, 
+                  utility_index=1.0, grain_product_index=1.0, feedstock_index=1.0, crop_index=1.0, wtp_price=0.95):
+        
         '''
         return a list containg multiple outputs of N, P, streamflow, sediment, 
         energy_dwt, energy_grain, energy_wwt,
         cost_dwt, cost_grain, rP
         '''
+        
+        '''
+        baseline = np.array(input_para)
+        indices = np.array(input_para)/baseline
+        nutrient_index = indices[0]
+        '''
+        
+        
         streamflow = self.get_streamflow_outlet(sw)
         streamflow_outlet = streamflow.sum(axis=1).mean()
         sediment_outlet = self.get_sediment_outlet(sw).sum(axis=1).mean()
@@ -307,8 +317,8 @@ class ITEEM(object):
         rP_amount = cost_energy[8]
         outlet_nitrate = cost_energy[-2]
         outlet_tp = cost_energy[-1]
-        N_outlet = outlet_nitrate[:,:,33].sum(axis=1).mean()
-        P_outlet = outlet_tp[:,:,33].sum(axis=1).mean()
+        N_outlet = outlet_nitrate[:,:,sw].sum(axis=1).mean()
+        P_outlet = outlet_tp[:,:,sw].sum(axis=1).mean()
         profit_GP, revenue_GP, revenue_crop, revenue_total = self.get_system_revenue(r=r, grain_product_index=grain_product_index,
                                                                                      rP_index=rP_index, feedstock_index=feedstock_index, 
                                                                                      chem_index=chem_index, utility_index=utility_index, 
@@ -316,17 +326,17 @@ class ITEEM(object):
         
         nitrate_impro_prt = ((7240 - N_outlet/1000)/7240)/0.45  # baseline nitrate load =7240 Mg/yr
         if nitrate_impro_prt > 0 and nitrate_impro_prt <1.0:
-            wtp_nitrate = nitrate_impro_prt*0.95*100*113700 # $0.95/1% nitrate improvement, 113700 household
+            wtp_nitrate = nitrate_impro_prt*0.95*100*59660 # $0.95/1% nitrate improvement, 59660 household
         elif nitrate_impro_prt > 1.0:
-            wtp_nitrate = 0.95*100*113700
+            wtp_nitrate = wtp_price*100*59660 # 59660 households
         else:
             wtp_nitrate = 0
         
         tp_impro_prt = ((324 - P_outlet/1000)/324)/0.45  # baseline TP load = 324 Mg/yr
         if  tp_impro_prt > 0 and tp_impro_prt < 1.0:
-            wtp_tp = tp_impro_prt*wtp_price*100*113700 # 113700 households
+            wtp_tp = tp_impro_prt*wtp_price*100*59660 # 59660 households
         elif tp_impro_prt > 1.0: 
-            wtp_tp = wtp_price*100*113700
+            wtp_tp = wtp_price*100*59660 # 59660 households
         else:
             wtp_tp = 0
         wtp = 0.5*wtp_nitrate + 0.5*wtp_tp
@@ -356,12 +366,17 @@ class ITEEM(object):
         economics = [cost_dwt, cost_grain, cost_wwt, cost_crop,
                      revenue_GP, revenue_crop-cost_crop, profit_GP, wtp, system_net_benefit]
         food = [rP_P_complex, rP_amount, corn, soybean]
-        output_all = [N_outlet, P_outlet, sediment_outlet,streamflow_outlet,
-                         energy_dwt, energy_grain, energy_wwt.mean(), biomass,
-                         cost_dwt, cost_wwt, profit_crop, profit_GP, wtp, system_net_benefit,
-                         rP_P_complex + rP_amount, corn, soybean]
-        return environment, food, economics, energy, output_all
         
+        spyder_output = [N_outlet, P_outlet, sediment_outlet, streamflow_outlet,
+                         energy_dwt, energy_grain, energy_wwt.mean(), biomass,
+                         cost_dwt, cost_wwt, profit_crop, profit_GP,
+                         wtp, system_net_benefit,
+                         corn, soybean, rP_P_complex + rP_amount, ]
+        
+        # spyder_output_normalized = 
+        return environment, food, economics, energy, spyder_output
+        
+
 # start = time.time()
 landuse_matrix_baseline = np.zeros((45,62))
 landuse_matrix_baseline[:,55] = 0.25

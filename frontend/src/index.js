@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 
 
 ReactDOM.render(
+  // Set up router for browser.
   <BrowserRouter>
     <App />
   </BrowserRouter>,

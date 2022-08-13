@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// Custom styling for the area covering all tabs.
 const StyledTabs = withStyles({
   flexGrow: 1,
   indicator: {
@@ -70,6 +71,7 @@ const StyledTabs = withStyles({
   },
 })((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
 
+// Custom styling for each of the tabs.
 const StyledTab = withStyles((theme) => ({
   root: {
     textTransform: 'none',
@@ -97,10 +99,9 @@ function App() {
       <div className={classes.root}>
         <AppBar position="static" style={{background: '#13294b'}}>
           <Toolbar>
-            {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" to='/' component={Link}>
-              
-            </IconButton> */}
             <div className={classes.demo2}>
+
+              {/* The three logos on the left side of the navigation bar */}
               <IconButton edge="start" className={classes.menuButton} onClick={(event, newValue) => { setValue(0) }} color="inherit" aria-label="menu" to='/' component={Link}>
                 <img src={logo_i} alt='Logo' height='60'/>
               </IconButton>
@@ -114,6 +115,7 @@ function App() {
               <div style={{flexGrow: 1, marginRight: 100}}>
                 <p style={{fontFamily: 'Encode Sans SC'}} className={classes.padding}>Nsf Infews Project</p>
               </div>
+              {/* Routing: set up below in LINE 135-239 */}
               <ThemeProvider theme={customTheme}>
                 <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs navbar">
                   <StyledTab label="Home" to='/' component={Link}/>
