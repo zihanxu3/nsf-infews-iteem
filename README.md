@@ -90,3 +90,7 @@ According to your own requirements, you might need to install the necessary pyth
 To activate venv:
 
 `source venv/bin/activate`
+
+# For backend (Deployment Environment Setup)
+
+Refer to this article: https://skilllx.com/how-to-host-flask-application-on-cpanel/
