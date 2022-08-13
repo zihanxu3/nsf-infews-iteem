@@ -3,8 +3,7 @@ import L from "leaflet";
 import { useEffect } from 'react';
 import './style.css'
 
-
-
+// Get color scales for the resulting map
 function getColor(d, unitSize, minValue) {
   return d > (unitSize * 8) + minValue? '#800026' :
       d > (unitSize * 7) + minValue? '#BD0026' :
@@ -30,7 +29,8 @@ function LegendLeaflet({ map, unitSize, legendExist, legendTitle, minValue, call
         let labels = [];
         let from;
         let to;
-
+        
+        // Display legends
         for (let i = 0; i < grades.length; i++) {
           from = grades[i].toFixed(1);
           to = grades[i + 1];

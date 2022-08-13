@@ -12,15 +12,17 @@ application = app
 
 baseline_global = None
 
+# A default message showing that deployment is successful.
 @app.route("/")
 def hello():
     return "Congratulation! You service Hosted on CPanel"
 
+# When simulation begins and data is passed.
 @app.route('/simulate', methods=['POST'])
 def simulate():
     print("function gets called at least")
     
-
+    # Getting data from the HTTP request.
     matrix = request.get_json()['subwatershed']
     tech_wwt = request.get_json()['wwt_param']
     tech_GP1 = request.get_json()['nwwt_param_wmp1']
@@ -29,6 +31,7 @@ def simulate():
 
     landuse_matrix_baseline = np.zeros((45,62))
     temp_matrix = np.array(matrix) / 100
+    # Matching user input with the required landuse matrix
     landuse_matrix_baseline[:, 0] = temp_matrix[:, 0]
     landuse_matrix_baseline[:, 37] = temp_matrix[:, 1]
     landuse_matrix_baseline[:, 39] = temp_matrix[:, 2]
@@ -38,10 +41,11 @@ def simulate():
     landuse_matrix_baseline[:, 55] = temp_matrix[:, 6]
 
 
-
+    # Run ITEEM model
     baseline = ITEEM(landuse_matrix_baseline, tech_wwt=tech_wwt, limit_N=10.0, tech_GP1=tech_GP1, tech_GP2=tech_GP2, tech_GP3=tech_GP3)
     baseline_global = baseline
 
+    # Getting data from ITEEM model and format them properly for display
     yield_data = {}
     yield_data['nitrate'] = baseline.get_yield('nitrate')
     yield_data['phosphorus'] = baseline.get_yield('phosphorus')

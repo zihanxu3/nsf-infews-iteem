@@ -383,6 +383,7 @@ export default class ITEEMSimulation extends Component {
 
 
 
+    // Handle logics for the chart value(s) change, user clicks and etc.
 
     handleChange = (event) => {
         this.setState({ menu_value: event.target.value });
@@ -631,7 +632,9 @@ export default class ITEEMSimulation extends Component {
             simulated: true,
         });
 
-        // Sending HTTPS request to fetch data from backend. 
+        // Sending HTTPS request to fetch data from backend, change the fetch url if in development mode.
+        // This url 'https://iteembackend.web.illinois.edu/simulate' is for produce enviroment
+        // Use localhost url and change package.json (and flask backend) if develop locally.
         (async () => {
             const rawResponse = await fetch('https://iteembackend.web.illinois.edu/simulate', {
                 method: 'POST',
@@ -674,6 +677,8 @@ export default class ITEEMSimulation extends Component {
             let data = []
             let gradNumber = 8;
             let arr = ['nitrate', 'phosphorus', 'streamflow'];
+
+            // Getting min value and difference to properly slice the data
             let diff = await Math.max.apply(Math, resp['yieldData'][arr[this.state.yieldMenuValue - 1]]) - Math.min.apply(Math, resp['yieldData'][arr[this.state.yieldMenuValue - 1]]);
             let minvalue = Math.min.apply(Math, resp['yieldData'][arr[this.state.yieldMenuValue - 1]]);
 
@@ -1078,7 +1083,7 @@ export default class ITEEMSimulation extends Component {
                             :
                             null
                         }
-                        {/* If data have not been received yet:  */}
+                        {/* If data have not been received yet, make water plant markers for the map:  */}
                         {!dataReceived ?
                             <div>
                                 <Marker tag="WWT Plant" position={[39.83121, -89.00160]} eventHandlers={{
