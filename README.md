@@ -94,3 +94,13 @@ To activate venv:
 # For backend (Deployment Environment Setup)
 
 Refer to this article: https://skilllx.com/how-to-host-flask-application-on-cpanel/
+
+# For plotting
+
+The plots of this website consist mainly of two tools, leaflet (react-leaflet: https://react-leaflet.js.org) and highcharts (https://github.com/highcharts/highcharts-react). Please refer to these documentations for plotting-related problems.
+
+# For UI Framework
+
+The UI framwork for this project is material UI, please refer to https://mui.com for documentation.
+
+Email zihanxu3(at)illinois(dot)edu for any questions not answered above. 
