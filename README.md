@@ -1,7 +1,22 @@
 # nsf-infews-iteem
 
-Project Description: This project is mainly using React for frontend and Flask for backend. Both the two ends'
-servers are now deployed on the University's cPanel service.
+Project Description: This project is mainly using React for frontend and Flask for backend. Both the two ends' servers are now deployed on the University's cPanel service.
+
+# File Structure:
+## Frontend
+.
+├── public        
+├── node_modules
+└── src               [Source files for frontend]
+    ├── assets        [Assets (images etc)]
+    └── components    [Pages, components for pages]
+## Backend
+.
+├── ITEEM.py          [ITEEM model]
+├── LICENSE
+├── README.md
+├── api.py            [Main file for backend logic]
+└── requirements.txt  [For deployemnt]
 
 # For frontend (Development Environment Setup)
 
@@ -84,12 +99,15 @@ Refer to this article: https://dev.to/crishanks/deploy-host-your-react-app-with-
 
 # For backend (Development Environment Setup) 
 
-According to your own requirements, you might need to install the necessary python packages beforehand. I used pip to install all the packages that I need and did not use a virtual environment (even though that’s highly recommended). To create a new python virtual environment called venv (you can call this something else — just replace the last venv in the command below with your own venv name), run:
-`python -m venv venv`
+According to your own requirements, you might need to install the necessary python packages beforehand. I used pip to install all the packages that I need and did not use a virtual environment (even though that’s highly recommended). To create a new python virtual environment called venv (you can call this something else — just replace the last venv in the command below with your own venv name), 
+run: `python -m venv venv`
 
 To activate venv:
 
 `source venv/bin/activate`
+
+Refer: https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9
+Flask Docs: https://flask.palletsprojects.com/en/1.1.x/quickstart/
 
 # For backend (Deployment Environment Setup)
 
