@@ -4,19 +4,23 @@ Project Description: This project is mainly using React for frontend and Flask f
 
 # File Structure:
 ## Frontend
+```
 .
 ├── public        
 ├── node_modules
 └── src               [Source files for frontend]
     ├── assets        [Assets (images etc)]
     └── components    [Pages, components for pages]
+```
 ## Backend
+```
 .
 ├── ITEEM.py          [ITEEM model]
 ├── LICENSE
 ├── README.md
 ├── api.py            [Main file for backend logic]
 └── requirements.txt  [For deployemnt]
+```
 
 # For frontend (Development Environment Setup)
 
